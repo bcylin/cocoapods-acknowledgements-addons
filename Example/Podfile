@@ -8,4 +8,4 @@ target :App do
 end
 
 plugin "cocoapods-acknowledgements"
-plugin "cocoapods-acknowledgements-addons"
+plugin "cocoapods-acknowledgements-addons", add: "Carthage/Checkouts"

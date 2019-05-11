@@ -4,17 +4,13 @@ require "cocoapods_acknowledgements/addons/podspec_accumulator"
 module CocoaPodsAcknowledgements
   module AddOns
 
-    def self.hello
-      Pod::UI.info PodspecAccumulator.new.hello
-    end
-
     Pod::HooksManager.register("cocoapods-acknowledgements-addons", :post_install) do |context, user_options|
 
-      require "pry"
-      binding.pry
+      path = user_options[:add] || ""
+      accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
 
-      Pod::UI.section "Modifying Acknowledgements" do
-        hello
+      accumulator.podspecs.each do |podspec|
+        Pod::UI.info "Adding #{podspec[:name]} to Acknowledgements"
       end
     end
 
