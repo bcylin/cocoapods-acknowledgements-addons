@@ -10,6 +10,9 @@ module CocoaPodsAcknowledgements
 
     Pod::HooksManager.register("cocoapods-acknowledgements-addons", :post_install) do |context, user_options|
 
+      require "pry"
+      binding.pry
+
       Pod::UI.section "Modifying Acknowledgements" do
         hello
       end

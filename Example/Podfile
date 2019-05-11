@@ -1,0 +1,11 @@
+platform :ios, "12.0"
+
+target :App do
+  use_frameworks!
+
+  pod "Alamofire"
+  pod "CPDAcknowledgements"
+end
+
+plugin "cocoapods-acknowledgements"
+plugin "cocoapods-acknowledgements-addons"
