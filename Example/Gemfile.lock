@@ -2,7 +2,7 @@ PATH
   remote: ..
   specs:
     cocoapods-acknowledgements-addons (0.1.0)
-      cocoapods
+      cocoapods (>= 0.36)
       cocoapods-acknowledgements
 
 GEM

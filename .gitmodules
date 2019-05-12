@@ -1,0 +1,3 @@
+[submodule "example/Dependencies/Strongify"]
+	path = example/Dependencies/Strongify
+	url = https://github.com/krzysztofzablocki/Strongify
