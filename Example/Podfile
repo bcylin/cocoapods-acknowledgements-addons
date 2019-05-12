@@ -9,5 +9,5 @@ end
 
 plugin "cocoapods-acknowledgements"
 plugin "cocoapods-acknowledgements-addons",
-  add: "Carthage/Checkouts",
+  add: ["Carthage/Checkouts"],
   exclude: ["QuickTableViewController"]

@@ -7,10 +7,13 @@ module CocoaPodsAcknowledgements
   module AddOns
 
     Pod::HooksManager.register("cocoapods-acknowledgements-addons", :post_install) do |context, user_options|
-      path = user_options[:add] || ""
-      excluded_podspecs = user_options["exclude"] || []
+      paths = [*user_options[:add]]
+      excluded_podspecs = [*user_options[:exclude]]
 
-      accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
+      podspecs = paths.reduce([]) do |specs, path|
+        accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
+        specs + accumulator.podspecs
+      end
       modifier = PlistModifier.new
 
       sandbox = context.sandbox if defined? context.sandbox
@@ -18,7 +21,7 @@ module CocoaPodsAcknowledgements
 
       context.umbrella_targets.each do |target|
         plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
-        modifier.add_podspecs_to_plist(accumulator.podspecs, plist_path, excluded_podspecs)
+        modifier.add_podspecs_to_plist(podspecs, plist_path, excluded_podspecs)
       end
     end
 
