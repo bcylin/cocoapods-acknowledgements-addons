@@ -21,7 +21,7 @@ module CocoaPodsAcknowledgements
 
       context.umbrella_targets.each do |target|
         plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
-        modifier.add_podspecs_to_plist(podspecs, plist_path, excluded_podspecs)
+        modifier.add(podspecs: podspecs, to: plist_path, except: excluded_podspecs)
       end
     end
 

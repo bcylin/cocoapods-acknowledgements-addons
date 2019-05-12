@@ -5,8 +5,12 @@ module CocoaPodsAcknowledgements
   module AddOns
     class PlistModifier
 
-      def add_podspecs_to_plist(podspecs = [], plist_path = nil, excluded_podspecs = [])
-        return if podspecs.empty? or plist_path.nil?
+      def add(arguments = {})
+        podspecs = [*arguments[:podspecs]]
+        plist_path = arguments[:to]
+        excluded_podspecs = [*arguments[:except]]
+
+        return if podspecs.empty? or not plist_path&.writable?
 
         plist = CFPropertyList::List.new(file: plist_path)
         acknowledgements = plist.value.value["specs"].value.map { |spec| spec.value["name"].value }
