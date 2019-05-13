@@ -7,12 +7,7 @@ end
 namespace :dev do
   desc "Test the plugin with the example app"
   task :install do
-    Dir.chdir("example") do
-      sh "git submodule update --init --recursive"
-      sh "carthage bootstrap --platform ios --no-build"
-      sh "bundle install"
-      sh "bundle exec pod install"
-    end
+    Dir.chdir("example") { sh "make install" }
   end
 end
 

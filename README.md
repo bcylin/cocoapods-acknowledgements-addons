@@ -40,12 +40,10 @@ The plugin searches `**/*.podspec` located in the specified directories and adds
     └── Pods-{target_name}-metadata.plist
 ```
 
-Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements). Set up the example project by running:
+> This plugin does not support the format used in `Settings.bundle` at the moment.
 
-```sh
-rake example
-```
+Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/Example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements).
 
 ## License
 
-This CocoaPods plugin is released under the [MIT License](https://github.com/bcylin/cocoapods-acknowledgements-addons/blob/master/LICENSE).
+Released under the [MIT License](https://github.com/bcylin/cocoapods-acknowledgements-addons/blob/master/LICENSE).
