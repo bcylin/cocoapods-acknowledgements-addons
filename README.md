@@ -40,7 +40,7 @@ The plugin searches `**/*.podspec` located in the specified directories and adds
     └── Pods-{target_name}-metadata.plist
 ```
 
-Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/Example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements). Set up the example project by running:
+Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements). Set up the example project by running:
 
 ```sh
 rake example
