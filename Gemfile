@@ -6,4 +6,5 @@ group :development do
   gem "cocoapods"
   gem "cocoapods-acknowledgements"
   gem "pry"
+  gem "yard"
 end

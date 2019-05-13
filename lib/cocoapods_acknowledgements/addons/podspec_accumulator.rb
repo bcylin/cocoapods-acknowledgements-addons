@@ -4,10 +4,13 @@ module CocoaPodsAcknowledgements
   module AddOns
     class PodspecAccumulator
 
+      # Initializes a PodspecAccumulator with a search path.
+      # @param search_path [Pathname] the directory to look for podspecs.
       def initialize(search_path = Pathname("").expand_path)
         @files = Dir[search_path + "**/*.podspec"]
       end
 
+      # @return [Array<Hash>] the array of podspec info required in the plist.
       def podspecs
         @files.map do |path|
           spec = Pod::Specification.from_file(path)

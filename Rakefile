@@ -1,12 +1,14 @@
+desc "Launch the example app"
+task :example do
+  Rake::Task["dev:install"].execute
+  sh "open example/App.xcworkspace"
+end
+
 namespace :dev do
   desc "Test the plugin with the example app"
-  task :test do
-    Dir.chdir("Example") do
-      sh "carthage bootstrap --platform ios --no-build"
-      sh "bundle install"
-      sh "bundle exec pod install"
-    end
+  task :install do
+    Dir.chdir("example") { sh "make install" }
   end
 end
 
-task :default => ["dev:test"]
+task :default => ["dev:install"]

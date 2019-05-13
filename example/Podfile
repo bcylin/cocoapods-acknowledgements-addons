@@ -1,0 +1,15 @@
+platform :ios, "12.0"
+
+target :App do
+  use_frameworks!
+
+  pod "CPDAcknowledgements", inhibit_warnings: true
+end
+
+# Generates a plist of dependencies installed via CocoaPods
+plugin "cocoapods-acknowledgements"
+
+# Adds additional acknowledgements to the generated plist
+plugin "cocoapods-acknowledgements-addons",
+  add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
+  exclude: ["QuickTableViewController"]

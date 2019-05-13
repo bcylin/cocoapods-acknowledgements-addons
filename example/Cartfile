@@ -1,4 +1,3 @@
 github "Alamofire/Alamofire"
 github "bcylin/QuickTableViewController"
-github "klundberg/Weakify"
-github "krzysztofzablocki/Strongify"
+github "soffes/Crypto"
