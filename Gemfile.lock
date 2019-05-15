@@ -72,6 +72,7 @@ GEM
       method_source (~> 0.9.0)
     rake (12.3.2)
     redcarpet (3.4.0)
+    rouge (2.0.7)
     ruby-macho (1.4.0)
     thread_safe (0.3.6)
     tzinfo (1.2.5)
@@ -82,6 +83,8 @@ GEM
       claide (>= 1.0.2, < 2.0)
       colored2 (~> 3.1)
       nanaimo (~> 0.2.6)
+    xcpretty (0.3.0)
+      rouge (~> 2.0.7)
     yard (0.9.19)
 
 PLATFORMS
@@ -94,6 +97,7 @@ DEPENDENCIES
   cocoapods-acknowledgements-addons!
   pry
   rake
+  xcpretty
   yard
 
 BUNDLED WITH

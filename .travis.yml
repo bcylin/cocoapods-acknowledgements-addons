@@ -1,0 +1,13 @@
+language: objective-c
+osx_image: xcode10.1
+cache:
+  - bundler
+  - cocoapods
+before_install:
+  - export LANG=en_US.UTF-8
+  - gem install bundler
+script:
+  - bundle exec rake install
+  - bundle exec rake test
+notifications:
+  email: false
