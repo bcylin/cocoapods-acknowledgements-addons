@@ -14,14 +14,13 @@ module CocoaPodsAcknowledgements
         accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
         specs + accumulator.podspecs
       end
-      modifier = PlistModifier.new
 
       sandbox = context.sandbox if defined? context.sandbox
       sandbox ||= Pod::Sandbox.new(context.sandbox_root)
 
       context.umbrella_targets.each do |target|
-        plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
-        modifier.add_podspecs_to_plist(podspecs, plist_path, excluded_names)
+        plist_modifier = PlistModifier.new(target, sandbox)
+        plist_modifier.add(podspecs, excluded_names)
       end
     end
 
