@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DCBABEF664A580CC51A20C7 /* Pods-App-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 86483D0B459CFC778983F352 /* Pods-App-metadata.plist */; };
+		3E324390228999D00019890D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3E32438F228999D00019890D /* Settings.bundle */; };
+		A13E030E47F7A0E2770732C8 /* Pods-App-settings-metadata.plist in Resources */ = {isa = PBXBuildFile; fileRef = 708796955B2F3A219047F849 /* Pods-App-settings-metadata.plist */; };
 		B43EC93C93DC3C2360974509 /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA157747EC044E59B9C2F90B /* Pods_App.framework */; };
 		B514E8CD2286FB6F002DAF01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B514E8CC2286FB6F002DAF01 /* AppDelegate.swift */; };
 		B514E8D42286FB73002DAF01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B514E8D32286FB73002DAF01 /* Assets.xcassets */; };
@@ -27,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		214E416B10370E7D6559A33E /* Pods-App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-App.debug.xcconfig"; path = "Target Support Files/Pods-App/Pods-App.debug.xcconfig"; sourceTree = "<group>"; };
+		3E32438F228999D00019890D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		708796955B2F3A219047F849 /* Pods-App-settings-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Pods-App-settings-metadata.plist"; path = "../App/Settings.bundle/Pods-App-settings-metadata.plist"; sourceTree = "<group>"; };
 		86483D0B459CFC778983F352 /* Pods-App-metadata.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-App-metadata.plist"; sourceTree = "<group>"; };
 		B514E8C92286FB6E002DAF01 /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B514E8CC2286FB6F002DAF01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +77,7 @@
 				86483D0B459CFC778983F352 /* Pods-App-metadata.plist */,
 				214E416B10370E7D6559A33E /* Pods-App.debug.xcconfig */,
 				CC4EEEFD98089300586144D8 /* Pods-App.release.xcconfig */,
+				708796955B2F3A219047F849 /* Pods-App-settings-metadata.plist */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 				B514E8D32286FB73002DAF01 /* Assets.xcassets */,
 				B514E8D82286FB74002DAF01 /* Info.plist */,
 				B514E8D52286FB73002DAF01 /* LaunchScreen.storyboard */,
+				3E32438F228999D00019890D /* Settings.bundle */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -203,6 +209,8 @@
 				B514E8D42286FB73002DAF01 /* Assets.xcassets in Resources */,
 				B514E8D72286FB73002DAF01 /* LaunchScreen.storyboard in Resources */,
 				1DCBABEF664A580CC51A20C7 /* Pods-App-metadata.plist in Resources */,
+				3E324390228999D00019890D /* Settings.bundle in Resources */,
+				A13E030E47F7A0E2770732C8 /* Pods-App-settings-metadata.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

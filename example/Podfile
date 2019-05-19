@@ -6,7 +6,7 @@ target :App do
 end
 
 # Generates a plist of dependencies installed via CocoaPods
-plugin "cocoapods-acknowledgements"
+plugin "cocoapods-acknowledgements", settings_bundle: true
 
 # Adds additional acknowledgements to the generated plist
 plugin "cocoapods-acknowledgements-addons",
