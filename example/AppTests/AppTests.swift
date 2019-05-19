@@ -20,4 +20,16 @@ final class AppTests: XCTestCase {
     XCTAssertEqual(acknowledgements, ["Alamofire", "CPDAcknowledgements", "Crypto", "Strongify"])
   }
 
+  func testSettingsPlist() {
+    let resourcePath = URL(string: Bundle.main.resourcePath!)!
+    let plistPath = resourcePath.appendingPathComponent("Pods-App-settings-metadata.plist")
+
+    let dictionary = NSDictionary(contentsOfFile: plistPath.absoluteString)!
+    let header = ["Acknowledgements"]
+    let acknowledgements = (dictionary["PreferenceSpecifiers"] as! [[String: Any]]).map { $0["Title"] } as? [String]
+    let footer = [""]
+
+    XCTAssertEqual(acknowledgements, header + ["Alamofire", "CPDAcknowledgements", "Crypto", "Strongify"] + footer)
+  }
+
 }
