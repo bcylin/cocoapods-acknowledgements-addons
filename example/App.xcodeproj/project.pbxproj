@@ -14,6 +14,7 @@
 		B514E8CD2286FB6F002DAF01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B514E8CC2286FB6F002DAF01 /* AppDelegate.swift */; };
 		B514E8D42286FB73002DAF01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B514E8D32286FB73002DAF01 /* Assets.xcassets */; };
 		B514E8D72286FB73002DAF01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B514E8D52286FB73002DAF01 /* LaunchScreen.storyboard */; };
+		B54C08752291CD6700B569A7 /* MethodSwizzler.m in Sources */ = {isa = PBXBuildFile; fileRef = B54C08742291CD6700B569A7 /* MethodSwizzler.m */; };
 		B5B510B0228B6E7700153ED4 /* AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B510AF228B6E7700153ED4 /* AppTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,9 @@
 		B514E8D32286FB73002DAF01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B514E8D62286FB73002DAF01 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B514E8D82286FB74002DAF01 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B54C08722291CD6700B569A7 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
+		B54C08732291CD6700B569A7 /* MethodSwizzler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MethodSwizzler.h; sourceTree = "<group>"; };
+		B54C08742291CD6700B569A7 /* MethodSwizzler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MethodSwizzler.m; sourceTree = "<group>"; };
 		B5B510AD228B6E7600153ED4 /* AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5B510AF228B6E7700153ED4 /* AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTests.swift; sourceTree = "<group>"; };
 		B5B510B1228B6E7700153ED4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,9 +79,9 @@
 			isa = PBXGroup;
 			children = (
 				86483D0B459CFC778983F352 /* Pods-App-metadata.plist */,
+				708796955B2F3A219047F849 /* Pods-App-settings-metadata.plist */,
 				214E416B10370E7D6559A33E /* Pods-App.debug.xcconfig */,
 				CC4EEEFD98089300586144D8 /* Pods-App.release.xcconfig */,
-				708796955B2F3A219047F849 /* Pods-App-settings-metadata.plist */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -105,10 +109,13 @@
 		B514E8CB2286FB6E002DAF01 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B54C08722291CD6700B569A7 /* App-Bridging-Header.h */,
 				B514E8CC2286FB6F002DAF01 /* AppDelegate.swift */,
 				B514E8D32286FB73002DAF01 /* Assets.xcassets */,
 				B514E8D82286FB74002DAF01 /* Info.plist */,
 				B514E8D52286FB73002DAF01 /* LaunchScreen.storyboard */,
+				B54C08732291CD6700B569A7 /* MethodSwizzler.h */,
+				B54C08742291CD6700B569A7 /* MethodSwizzler.m */,
 				3E32438F228999D00019890D /* Settings.bundle */,
 			);
 			path = App;
@@ -175,6 +182,7 @@
 				TargetAttributes = {
 					B514E8C82286FB6E002DAF01 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 					};
 					B5B510AC228B6E7600153ED4 = {
 						CreatedOnToolsVersion = 10.1;
@@ -209,8 +217,8 @@
 				B514E8D42286FB73002DAF01 /* Assets.xcassets in Resources */,
 				B514E8D72286FB73002DAF01 /* LaunchScreen.storyboard in Resources */,
 				1DCBABEF664A580CC51A20C7 /* Pods-App-metadata.plist in Resources */,
-				3E324390228999D00019890D /* Settings.bundle in Resources */,
 				A13E030E47F7A0E2770732C8 /* Pods-App-settings-metadata.plist in Resources */,
+				3E324390228999D00019890D /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +284,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B514E8CD2286FB6F002DAF01 /* AppDelegate.swift in Sources */,
+				B54C08752291CD6700B569A7 /* MethodSwizzler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +439,7 @@
 			baseConfigurationReference = 214E416B10370E7D6559A33E /* Pods-App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -438,6 +448,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.bcylin.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/App-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -448,6 +460,7 @@
 			baseConfigurationReference = CC4EEEFD98089300586144D8 /* Pods-App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = App/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -456,6 +469,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.bcylin.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "App/App-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
