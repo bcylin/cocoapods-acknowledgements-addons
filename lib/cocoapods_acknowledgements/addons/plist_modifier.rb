@@ -28,7 +28,7 @@ module CocoaPodsAcknowledgements
         excluded_names += existing_titles
 
         additions = plist_metadata.map { |metadata|
-          next if excluded_names.include? metadata[:name]
+          next if metadata.nil? or excluded_names.include? metadata[:name]
           Pod::UI.info "Adding #{metadata[:name]} to #{@plist_path.basename}"
           CFPropertyList.guess(metadata)
         }.reject(&:nil?)

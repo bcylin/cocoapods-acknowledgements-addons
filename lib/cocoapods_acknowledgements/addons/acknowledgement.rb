@@ -4,23 +4,41 @@ module CocoaPodsAcknowledgements
   module AddOns
     class Acknowledgement
 
-      # Initializes an object that contains the Acknowledgement data.
       # @param path [String] the path string to a pod spec.
+      #
       def initialize(file)
-        return nil unless file and Pathname(file).expand_path.exist?
+        path = Pathname(file).expand_path if file
+        directory = path.dirname
 
-        @spec = Pod::Specification.from_file(file)
-
-        license_file = @spec.license[:file] || "LICENSE"
-        @license_path = File.join(File.dirname(file), license_file)
+        @spec = Pod::Specification.from_file(file) if path.exist?
+        @license_text = license_text(@spec, directory)
       end
 
-      def license_text
-        File.read(@license_path)
+      # @param podspec [Pod::Specification]
+      # @param directory [Pathname]
+      #
+      # @return [String] the text of the license.
+      # @return [Nil] if it's not found.
+      #
+      def license_text(podspec, directory)
+        return nil unless podspec
+        text = podspec.license[:text]
+
+        if text.nil?
+          license_file = podspec.license[:file] || "LICENSE"
+          license_path = directory + license_file
+          return nil unless license_path.exist?
+          text = File.read(license_path)
+        end
+
+        text
       end
 
       # @return [Hash] the acknowledgement info for the plist.
+      # @return [Nil] if the license text is missing.
+      #
       def plist_metadata
+        return nil unless @spec and @license_text
         {
           name: @spec.name,
           version: @spec.version.to_s,
@@ -28,16 +46,20 @@ module CocoaPodsAcknowledgements
           socialMediaURL: @spec.social_media_url || "",
           summary: @spec.summary,
           licenseType: @spec.license[:type],
-          licenseText: license_text,
+          licenseText: @license_text,
           homepage: @spec.homepage
         }
       end
 
+      # @return [Hash] the acknowledgement info for the Settings.bundle plist.
+      # @return [Nil] if the license text is missing.
+      #
       def settings_plist_metadata
+        return nil unless @spec and @license_text
         {
           Title: @spec.name,
           Type: "PSGroupSpecifier",
-          FooterText: license_text
+          FooterText: @license_text
         }
       end
 
