@@ -24,7 +24,7 @@ module CocoaPodsAcknowledgements
         plist_modifier.add(acknowledgements.map(&:plist_metadata), excluded_names)
 
         settings_plist_modifier = SettingsPlistModifier.new(target)
-        settings_plist_modifier&.add(acknowledgements.map(&:settings_plist_metadata), excluded_names)
+        settings_plist_modifier.add(acknowledgements.map(&:settings_plist_metadata), excluded_names)
       end
     end
 

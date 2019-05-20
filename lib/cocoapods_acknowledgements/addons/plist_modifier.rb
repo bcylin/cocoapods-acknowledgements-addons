@@ -6,16 +6,18 @@ module CocoaPodsAcknowledgements
   module AddOns
     class PlistModifier
 
-      # Initializes a PlistModifier with the info of target and CocoaPods sandbox.
       # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
       # @param sandbox [Pod::Sandbox] the CocoaPods sandbox
+      #
       def initialize(target, sandbox)
         @plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
       end
 
       # Adds acknowledgements to the plist except the excluded ones.
+      #
       # @param plist_metadata [Array<Hash>] the array of acknowledgement plist metadata.
       # @param excluded_names [Array<String>] the array of names to ignore.
+      #
       def add(plist_metadata, excluded_names)
         plist_metadata = [*plist_metadata]
         excluded_names = [*excluded_names]

@@ -6,21 +6,22 @@ module CocoaPodsAcknowledgements
   module AddOns
     class SettingsPlistModifier
 
-      # Initializes a SettingsPlistModifier with the info of target.
       # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
-      # @return [SettingsPlistModifier] a settings plist modifier or nil when Settings.bundle doesn't exist.
+      #
       def initialize(target)
         project = Xcodeproj::Project.open(target.user_project_path)
         file = project.files.find { |f| f.path =~ /Settings\.bundle$/ }
         settings_bundle = file&.real_path
 
-        return nil unless settings_bundle&.exist?
+        return unless settings_bundle&.exist?
         @plist_path = settings_bundle + "#{target.cocoapods_target_label}-settings-metadata.plist"
       end
 
       # Adds acknowledgements to the plist except the excluded ones.
+      #
       # @param plist_metadata [Array<Hash>] the array of acknowledgement plist metadata.
       # @param excluded_names [Array<String>] the array of names to ignore.
+      #
       def add(plist_metadata, excluded_names)
         plist_metadata = [*plist_metadata]
         excluded_names = [*excluded_names]
