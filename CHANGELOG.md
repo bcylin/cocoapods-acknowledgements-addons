@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.2.0
+
+* Support the plist located in `Settings.bundle`.
+
 ## 0.1.0
 
 * Initial release
