@@ -43,7 +43,7 @@ The plugin searches `**/*.podspec` located in the specified directories and adds
     └── Pods-{target_name}-metadata.plist
 ```
 
-> This plugin does not support the format used in `Settings.bundle` at the moment.
+This plugin also updates the app's `Settings.bundle/Pods-{target_name}-settings-metadata.plist` if it exists.
 
 Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements).
 
