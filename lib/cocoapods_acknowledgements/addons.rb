@@ -1,7 +1,7 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
 require "cocoapods_acknowledgements/addons/podspec_accumulator"
-require "cocoapods_acknowledgements/addons/plist_modifier"
+require "cocoapods_acknowledgements/addons/metadata_plist_modifier"
 require "cocoapods_acknowledgements/addons/settings_plist_modifier"
 
 module CocoaPodsAcknowledgements
@@ -20,11 +20,11 @@ module CocoaPodsAcknowledgements
       sandbox ||= Pod::Sandbox.new(context.sandbox_root)
 
       context.umbrella_targets.each do |target|
-        plist_modifier = PlistModifier.new(target, sandbox)
-        plist_modifier.add(acknowledgements.map(&:plist_metadata), excluded_names)
+        metadata_plist_modifier = MetadataPlistModifier.new(target, sandbox)
+        metadata_plist_modifier.add(acknowledgements.map(&:metadata_plist_item), excluded_names)
 
         settings_plist_modifier = SettingsPlistModifier.new(target)
-        settings_plist_modifier.add(acknowledgements.map(&:settings_plist_metadata), excluded_names)
+        settings_plist_modifier.add(acknowledgements.map(&:settings_plist_item), excluded_names)
       end
     end
 

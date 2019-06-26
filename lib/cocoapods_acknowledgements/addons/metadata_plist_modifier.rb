@@ -4,7 +4,7 @@ require "cocoapods_acknowledgements/addons/acknowledgement"
 
 module CocoaPodsAcknowledgements
   module AddOns
-    class PlistModifier
+    class MetadataPlistModifier
 
       # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
       # @param sandbox [Pod::Sandbox] the CocoaPods sandbox

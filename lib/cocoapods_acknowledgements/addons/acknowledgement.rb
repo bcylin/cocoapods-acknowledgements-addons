@@ -34,10 +34,10 @@ module CocoaPodsAcknowledgements
         text
       end
 
-      # @return [Hash] the acknowledgement info for the plist.
+      # @return [Hash] the acknowledgement info for the Pods metadata plist.
       # @return [Nil] if the license text is missing.
       #
-      def plist_metadata
+      def metadata_plist_item
         return nil unless @spec and @license_text
         {
           name: @spec.name,
@@ -54,7 +54,7 @@ module CocoaPodsAcknowledgements
       # @return [Hash] the acknowledgement info for the Settings.bundle plist.
       # @return [Nil] if the license text is missing.
       #
-      def settings_plist_metadata
+      def settings_plist_item
         return nil unless @spec and @license_text
         {
           Title: @spec.name,
