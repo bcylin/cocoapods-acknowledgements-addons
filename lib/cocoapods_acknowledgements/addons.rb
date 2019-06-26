@@ -29,6 +29,7 @@ module CocoaPodsAcknowledgements
 
         plist = settings_plist_modifier.plist
         pods_plist_modifier = PodsPlistModifier.new(target, sandbox)
+        pods_plist_modifier.update_files_with(plist)
       end
     end
 

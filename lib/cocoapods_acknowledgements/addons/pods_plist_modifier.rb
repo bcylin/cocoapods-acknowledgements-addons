@@ -27,6 +27,36 @@ module CocoaPodsAcknowledgements
         return nil unless @plist_path&.readable?
         CFPropertyList::List.new(file: @plist_path)
       end
+
+      # @param plist [CFPropertyList::List] the acknowledgement plist to update the target files.
+      #
+      def update_files_with(plist)
+        entries = plist.value.value["PreferenceSpecifiers"].value
+        header = entries.first
+        footer = entries.last
+        acknowledgements = entries[1...-1].map do |entry|
+          <<~ACKNOWLEDGEMENT.strip
+            ## #{entry.value["Title"].value}
+
+            #{entry.value["FooterText"].value}
+          ACKNOWLEDGEMENT
+        end
+
+        texts = <<~MARKDOWN
+          # #{header.value["Title"].value}
+          #{header.value["FooterText"].value}
+
+          #{acknowledgements.join("\n\n\n")}
+
+          #{footer.value["FooterText"].value}
+        MARKDOWN
+
+        # Update markdown
+        File.write @markdown_path, texts
+
+        # Update plist
+        plist.save(@plist_path, CFPropertyList::List::FORMAT_XML)
+      end
     end
   end
 end

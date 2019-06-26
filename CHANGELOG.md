@@ -1,5 +1,9 @@
 # Change Log
 
+## Next release
+
+* Update the markdown and plist files in `Pods/Target Support Files`.
+
 ## 0.2.0
 
 * Support the plist located in `Settings.bundle`.

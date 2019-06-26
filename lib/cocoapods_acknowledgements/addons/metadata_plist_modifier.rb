@@ -13,6 +13,13 @@ module CocoaPodsAcknowledgements
         @plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
       end
 
+      # @return [CFPropertyList::List] the acknowledgement plist at Pods/Pods-#{app_name}-metadata.plist.
+      #
+      def plist
+        return nil unless @plist_path&.readable?
+        CFPropertyList::List.new(file: @plist_path)
+      end
+
       # Adds acknowledgements to the plist except the excluded ones.
       #
       # @param plist_metadata [Array<Hash>] the array of acknowledgement plist metadata.
