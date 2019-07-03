@@ -17,6 +17,13 @@ module CocoaPodsAcknowledgements
         @plist_path = settings_bundle + "#{target.cocoapods_target_label}-settings-metadata.plist"
       end
 
+      # @return [CFPropertyList::List] the acknowledgement plist in the app Settings.bundle.
+      #
+      def plist
+        return nil unless @plist_path&.readable?
+        CFPropertyList::List.new(file: @plist_path)
+      end
+
       # Adds acknowledgements to the plist except the excluded ones.
       #
       # @param plist_metadata [Array<Hash>] the array of acknowledgement plist metadata.
@@ -48,6 +55,8 @@ module CocoaPodsAcknowledgements
 
         acknowledgements = entries[1...-1] + additions
         acknowledgements.sort! { |a, b| a.value["Title"].value <=> b.value["Title"].value }
+
+        footer.value["FooterText"].value.gsub!("http:", "https:")
 
         plist.value.value["PreferenceSpecifiers"].value = [header] + acknowledgements + [footer]
         plist.save(@plist_path, CFPropertyList::List::FORMAT_XML)

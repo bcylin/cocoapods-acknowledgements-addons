@@ -4,13 +4,20 @@ require "cocoapods_acknowledgements/addons/acknowledgement"
 
 module CocoaPodsAcknowledgements
   module AddOns
-    class PlistModifier
+    class MetadataPlistModifier
 
       # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
       # @param sandbox [Pod::Sandbox] the CocoaPods sandbox
       #
       def initialize(target, sandbox)
         @plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
+      end
+
+      # @return [CFPropertyList::List] the acknowledgement plist at Pods/Pods-#{app_name}-metadata.plist.
+      #
+      def plist
+        return nil unless @plist_path&.readable?
+        CFPropertyList::List.new(file: @plist_path)
       end
 
       # Adds acknowledgements to the plist except the excluded ones.
