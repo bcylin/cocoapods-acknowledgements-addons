@@ -34,13 +34,16 @@ module CocoaPodsAcknowledgements
         plist = CFPropertyList::List.new(file: @plist_path)
         entries = plist.value.value["specs"].value
         existing_titles = entries.map { |spec| spec.value["name"].value }
-        excluded_names += existing_titles
+        excluded_names = (excluded_names + existing_titles).uniq
 
-        additions = plist_metadata.map { |metadata|
-          next if metadata.nil? or excluded_names.include? metadata[:name]
+        additions = plist_metadata.map do |metadata|
+          next if metadata.nil? or excluded_names.any? do |excluded_name|
+            pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
+            metadata[:name] =~ pattern
+          end
           Pod::UI.info "Adding #{metadata[:name]} to #{@plist_path.basename}"
           CFPropertyList.guess(metadata)
-        }.reject(&:nil?)
+        end.reject(&:nil?)
 
         acknowledgements = entries + additions
         acknowledgements.sort! { |a, b| a.value["name"].value <=> b.value["name"].value }
