@@ -5,7 +5,7 @@
 ```rb
 plugin "cocoapods-acknowledgements-addons",
   add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
-  exclude: ["QuickTableViewController"]
+  exclude: ["Quick*"]
 ```
 
 The plugin finds additional acknowledgements from the following directories:
