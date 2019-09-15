@@ -26,7 +26,7 @@ task :test do
       %(-workspace App.xcworkspace),
       %(-scheme App),
       %(-sdk iphonesimulator),
-      %(-destination 'platform=iOS Simulator,name=iPhone X,OS=12.1'),
+      %(-destination 'platform=iOS Simulator,name=iPhone X,OS=12.4'),
       %(clean test),
       %(| bundle exec xcpretty -c && exit ${PIPESTATUS[0]})
     ].join " "
