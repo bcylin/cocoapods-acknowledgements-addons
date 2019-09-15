@@ -9,6 +9,15 @@ task :install do
   Dir.chdir("example") { sh "make install" }
 end
 
+desc "Update dependencies"
+task :update do
+  sh "bundle update"
+  Dir.chdir("example") do
+    sh "bundle update"
+    sh "bundle exec pod install"
+  end
+end
+
 desc "Run the tests in the example app"
 task :test do
   Dir.chdir("example") do
