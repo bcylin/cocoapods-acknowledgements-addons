@@ -1,9 +1,9 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
 require "cocoapods_acknowledgements/addons/podspec_accumulator"
-require "cocoapods_acknowledgements/addons/pods_plist_modifier"
-require "cocoapods_acknowledgements/addons/metadata_plist_modifier"
-require "cocoapods_acknowledgements/addons/settings_plist_modifier"
+require "cocoapods_acknowledgements/addons/modifiers/pods_plist_modifier"
+require "cocoapods_acknowledgements/addons/modifiers/metadata_plist_modifier"
+require "cocoapods_acknowledgements/addons/modifiers/settings_plist_modifier"
 
 module CocoaPodsAcknowledgements
   module AddOns
