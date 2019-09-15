@@ -19,8 +19,9 @@ task :test do
       %(-sdk iphonesimulator),
       %(-destination 'platform=iOS Simulator,name=iPhone X,OS=12.1'),
       %(clean test),
-      %(| bundle exec xcpretty -c)
+      %(| bundle exec xcpretty -c && exit ${PIPESTATUS[0]})
     ].join " "
+    exit $?.exitstatus if not $?.success?
   end
 end
 

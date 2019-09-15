@@ -12,4 +12,4 @@ plugin "cocoapods-acknowledgements"
 # Adds additional acknowledgements to the generated plist
 plugin "cocoapods-acknowledgements-addons",
   add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
-  exclude: ["QuickTableViewController"]
+  exclude: ["Quick*"]
