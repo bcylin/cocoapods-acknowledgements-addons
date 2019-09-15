@@ -6,6 +6,8 @@ module CocoaPodsAcknowledgements
   module AddOns
     class MetadataPlistModifier
 
+      # A modifier to update Pods/Pods-#{app_name}-metadata.plist.
+      #
       # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
       # @param sandbox [Pod::Sandbox] the CocoaPods sandbox
       #
