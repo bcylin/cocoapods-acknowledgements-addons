@@ -36,22 +36,30 @@ module CocoaPodsAcknowledgements
         plist = CFPropertyList::List.new(file: @plist_path)
         entries = plist.value.value["specs"].value
         existing_titles = entries.map { |spec| spec.value["name"].value }
-        excluded_names = (excluded_names + existing_titles).uniq
+        excluded_names.uniq!
 
         additions = plist_metadata.map do |metadata|
-          next if metadata.nil? or excluded_names.any? do |excluded_name|
-            pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
-            metadata[:name] =~ pattern
-          end
+          next if metadata.nil? or existing_titles.include? metadata[:name]
           Pod::UI.info "Adding #{metadata[:name]} to #{@plist_path.basename}"
           CFPropertyList.guess(metadata)
         end.reject(&:nil?)
 
         acknowledgements = entries + additions
-        acknowledgements.sort! { |a, b| a.value["name"].value <=> b.value["name"].value }
+        acknowledgements
+          .sort! { |a, b| a.value["name"].value <=> b.value["name"].value }
+          .reject! do |entry|
+            matches = excluded_names.any? do |excluded_name|
+              pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
+              entry.value["name"].value =~ pattern
+            end
+            Pod::UI.info %(Removing #{entry.value["name"].value} from #{@plist_path.basename}) if matches
+            matches
+          end
 
         plist.value.value["specs"].value = acknowledgements
         plist.save(@plist_path, CFPropertyList::List::FORMAT_XML)
+
+        Pod::UI.puts "Saving #{@plist_path}".green
       end
 
     end

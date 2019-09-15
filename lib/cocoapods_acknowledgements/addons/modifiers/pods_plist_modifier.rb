@@ -58,6 +58,8 @@ module CocoaPodsAcknowledgements
         plist = plist_with_additional_metadata(plist_metadata, excluded_names)
 
         [@plist_path, @settings_plist].each do |path|
+          next unless path&.writable?
+          Pod::UI.puts "Saving #{path}".green
           plist.save(path, CFPropertyList::List::FORMAT_XML)
         end
 
@@ -79,19 +81,25 @@ module CocoaPodsAcknowledgements
         existing_titles = entries
           .map { |spec| spec.value["Title"].value }
           .reject { |title| attributes.include? title }
-        excluded_names = (excluded_names + existing_titles).uniq
+        excluded_names.uniq!
 
         additions = plist_metadata.map do |metadata|
-          next if metadata.nil? or excluded_names.any? do |excluded_name|
-            pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
-            metadata[:Title] =~ pattern
-          end
+          next if metadata.nil? or existing_titles.include? metadata[:Title]
           Pod::UI.info "Adding #{metadata[:Title]} to #{@plist_path.basename}"
           CFPropertyList.guess(metadata)
         end.reject(&:nil?)
 
         acknowledgements = entries[1...-1] + additions
-        acknowledgements.sort! { |a, b| a.value["Title"].value <=> b.value["Title"].value }
+        acknowledgements
+          .sort! { |a, b| a.value["Title"].value <=> b.value["Title"].value }
+          .reject! do |entry|
+            matches = excluded_names.any? do |excluded_name|
+              pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
+              entry.value["Title"].value =~ pattern
+            end
+            Pod::UI.info %(Removing #{entry.value["Title"].value} from #{@plist_path.basename}) if matches
+            matches
+          end
 
         footer.value["FooterText"].value.gsub!("http:", "https:")
 
