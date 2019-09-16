@@ -1,0 +1,23 @@
+name: Run tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: rake install and test
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6.x'
+      - run: gem list bundler
+
+      - name: Run install
+        run: |
+          bundle install
+          bundle exec rake install
+
+      - name: Run tests
+        run: |
+          bundle exec rake test
