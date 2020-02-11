@@ -24,6 +24,7 @@ module CocoaPodsAcknowledgements
           results + accumulator.acknowledgements
         end
         acknowledgements += spm_acknowledgements
+        Pod::UI.info %(Found #{spm_acknowledgements.count} Swift Package(s)).green
       end
 
       sandbox = context.sandbox if defined? context.sandbox
