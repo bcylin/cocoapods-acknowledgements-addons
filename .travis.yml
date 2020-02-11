@@ -7,7 +7,7 @@ before_install:
   - export LANG=en_US.UTF-8
   - gem install bundler -v 2.0.2
 script:
-  - bundle exec rake install
+  - bundle exec rake build
   - bundle exec rake test
 notifications:
   email: false
