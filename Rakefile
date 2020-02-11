@@ -32,6 +32,7 @@ end
 
 desc "Run the tests in the example app"
 task :test do
+  Rake::Task[:install].execute
   Dir.chdir("example") do
     sh xcodebuild(action: "clean test")
     exit $?.exitstatus if not $?.success?

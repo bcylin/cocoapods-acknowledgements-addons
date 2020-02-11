@@ -11,18 +11,20 @@ module CocoaPodsAcknowledgements
     Pod::HooksManager.register("cocoapods-acknowledgements-addons", :post_install) do |context, user_options|
       paths = [*user_options[:add]]
       excluded_names = [*user_options[:exclude]]
+      includes_spm = user_options[:with_spm] || false
 
       acknowledgements = paths.reduce([]) do |results, path|
         accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
         results + accumulator.acknowledgements
       end
 
-      spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
-        accumulator = SwiftPackageAccumulator.new(target.user_project.path)
-        results + accumulator.acknowledgements
+      if includes_spm
+        spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
+          accumulator = SwiftPackageAccumulator.new(target.user_project.path)
+          results + accumulator.acknowledgements
+        end
+        acknowledgements += spm_acknowledgements
       end
-
-      puts spm_acknowledgements.map { |a| a.metadata_plist_item[:name] }
 
       sandbox = context.sandbox if defined? context.sandbox
       sandbox ||= Pod::Sandbox.new(context.sandbox_root)

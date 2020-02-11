@@ -12,4 +12,5 @@ plugin "cocoapods-acknowledgements", settings_bundle: true
 # Adds additional acknowledgements to the generated plist
 plugin "cocoapods-acknowledgements-addons",
   add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
+  with_spm: true,
   exclude: ["Quick*"]
