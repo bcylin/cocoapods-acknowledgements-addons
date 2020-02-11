@@ -13,7 +13,6 @@ desc "Update dependencies"
 task :update do
   sh "bundle update"
   Dir.chdir("example") do
-    sh "bundle update"
     sh "bundle exec pod install"
   end
 end
