@@ -1,6 +1,7 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
 require "cocoapods_acknowledgements/addons/podspec_accumulator"
+require "cocoapods_acknowledgements/addons/swift_package_accumulator"
 require "cocoapods_acknowledgements/addons/modifiers/pods_plist_modifier"
 require "cocoapods_acknowledgements/addons/modifiers/metadata_plist_modifier"
 
@@ -15,6 +16,13 @@ module CocoaPodsAcknowledgements
         accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
         results + accumulator.acknowledgements
       end
+
+      spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
+        accumulator = SwiftPackageAccumulator.new(target.user_project.path)
+        results + accumulator.acknowledgements
+      end
+
+      puts spm_acknowledgements.map { |a| a.metadata_plist_item[:name] }
 
       sandbox = context.sandbox if defined? context.sandbox
       sandbox ||= Pod::Sandbox.new(context.sandbox_root)

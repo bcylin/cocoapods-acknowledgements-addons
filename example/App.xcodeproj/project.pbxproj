@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -199,6 +199,9 @@
 				Base,
 			);
 			mainGroup = B514E8C02286FB6E002DAF01;
+			packageReferences = (
+				3E48C95723F1A1E400AA53EF /* RemoteSwiftPackageReference */,
+			);
 			productRefGroup = B514E8CA2286FB6E002DAF01 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -539,6 +542,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3E48C95723F1A1E400AA53EF /* RemoteSwiftPackageReference */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Quick/Quick";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = B514E8C12286FB6E002DAF01 /* Project object */;
 }
