@@ -40,7 +40,7 @@
 }
 
 /**
- Load `*-App-metadata.plist` instead of `*-metadata.plist`.
+ Load `*-App-metadata.plist` instead of `*-metadata.plist` to avoid `Pods-App-settings-metadata.plist` when `settings_bundle: true`.
 
  @param bundle The bundle that contains the plist.
  @return An array of CPDLibrary.

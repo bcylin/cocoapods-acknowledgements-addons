@@ -3,7 +3,15 @@
 ## Next release
 
 * Update the markdown and plist files in `Pods/Target Support Files`.
-* Support wildcard characters in the excluded filenames
+* Support wildcard characters in the excluded filenames.
+* Find dependencies installed via Swift Package Manager:
+
+```rb
+plugin "cocoapods-acknowledgements-addons",
+  add: ["directory_to_search"],
+  with_spm: true,
+  exclude: ["lib_name*"]
+```
 
 ## 0.2.0
 
