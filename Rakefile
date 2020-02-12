@@ -6,14 +6,14 @@ end
 
 desc "Use the plugin with the example app"
 task :install do
-  Dir.chdir("example") { sh "make install" }
+  sh "bundle install"
+  Dir.chdir("example") { sh "make install-dependencies" }
 end
 
 desc "Update dependencies"
 task :update do
   sh "bundle update"
   Dir.chdir("example") do
-    sh "bundle update"
     sh "bundle exec pod install"
   end
 end
@@ -31,9 +31,19 @@ def xcodebuild(params)
   ].reject(&:nil?).join " "
 end
 
+desc "Build the example app"
+task :build do
+  Dir.chdir("example") do
+    sh "make install-dependencies"
+    sh xcodebuild(action: "clean build")
+    exit $?.exitstatus if not $?.success?
+  end
+end
+
 desc "Run the tests in the example app"
 task :test do
   Dir.chdir("example") do
+    sh "make install-dependencies"
     sh xcodebuild(action: "clean test")
     exit $?.exitstatus if not $?.success?
   end

@@ -1,8 +1,8 @@
-default: install
+default:
+	make install-dependencies
 	open App.xcworkspace
 
-install:
+install-dependencies:
 	git submodule update --init --recursive
 	carthage bootstrap --platform ios --no-build
-	bundle install
 	bundle exec pod install

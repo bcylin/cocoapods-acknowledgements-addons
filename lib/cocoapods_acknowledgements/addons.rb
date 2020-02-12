@@ -1,6 +1,7 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
 require "cocoapods_acknowledgements/addons/podspec_accumulator"
+require "cocoapods_acknowledgements/addons/swift_package_accumulator"
 require "cocoapods_acknowledgements/addons/modifiers/pods_plist_modifier"
 require "cocoapods_acknowledgements/addons/modifiers/metadata_plist_modifier"
 
@@ -10,10 +11,20 @@ module CocoaPodsAcknowledgements
     Pod::HooksManager.register("cocoapods-acknowledgements-addons", :post_install) do |context, user_options|
       paths = [*user_options[:add]]
       excluded_names = [*user_options[:exclude]]
+      includes_spm = user_options[:with_spm] || false
 
       acknowledgements = paths.reduce([]) do |results, path|
         accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
-        results + accumulator.acknowledgements
+        (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
+      end
+
+      if includes_spm
+        spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
+          accumulator = SwiftPackageAccumulator.new(target.user_project.path)
+          (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
+        end
+        acknowledgements += spm_acknowledgements
+        Pod::UI.info %(Found #{spm_acknowledgements.count} Swift Package(s)).green
       end
 
       sandbox = context.sandbox if defined? context.sandbox

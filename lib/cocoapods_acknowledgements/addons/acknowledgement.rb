@@ -3,6 +3,7 @@ require "cocoapods-core"
 module CocoaPodsAcknowledgements
   module AddOns
     class Acknowledgement
+      attr_reader :spec
 
       # @param path [String] the path string to a pod spec.
       #

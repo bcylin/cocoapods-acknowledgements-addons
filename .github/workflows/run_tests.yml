@@ -11,12 +11,14 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6.x'
-      - run: gem list bundler
-
-      - name: Run install
+      - name: Run bundle install
         run: |
+          gem list bundler
           bundle install
-          bundle exec rake install
+
+      - name: Build app
+        run: |
+          bundle exec rake build
 
       - name: Run tests
         run: |
