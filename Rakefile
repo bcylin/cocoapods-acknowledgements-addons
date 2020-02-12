@@ -18,18 +18,23 @@ task :update do
   end
 end
 
+def xcodebuild(params)
+  return ":" unless params[:action]
+  [
+    %(xcodebuild),
+    %(-workspace App.xcworkspace),
+    %(-scheme App),
+    %(-sdk iphonesimulator),
+    %(-destination 'platform=iOS Simulator,name=iPhone 11,OS=latest'),
+    params[:action],
+    %(| bundle exec xcpretty -c && exit ${PIPESTATUS[0]})
+  ].reject(&:nil?).join " "
+end
+
 desc "Run the tests in the example app"
 task :test do
   Dir.chdir("example") do
-    sh [
-      %(xcodebuild),
-      %(-workspace App.xcworkspace),
-      %(-scheme App),
-      %(-sdk iphonesimulator),
-      %(-destination 'platform=iOS Simulator,name=iPhone X,OS=latest'),
-      %(clean test),
-      %(| bundle exec xcpretty -c && exit ${PIPESTATUS[0]})
-    ].join " "
+    sh xcodebuild(action: "clean test")
     exit $?.exitstatus if not $?.success?
   end
 end
