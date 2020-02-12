@@ -15,13 +15,13 @@ module CocoaPodsAcknowledgements
 
       acknowledgements = paths.reduce([]) do |results, path|
         accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
-        results + accumulator.acknowledgements
+        (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
       end
 
       if includes_spm
         spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
           accumulator = SwiftPackageAccumulator.new(target.user_project.path)
-          results + accumulator.acknowledgements
+          (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
         end
         acknowledgements += spm_acknowledgements
         Pod::UI.info %(Found #{spm_acknowledgements.count} Swift Package(s)).green
