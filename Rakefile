@@ -1,3 +1,26 @@
+desc "Bump versions"
+task :bump, [:version] do |t, args|
+  version = args[:version]
+  unless version
+    puts %{Usage: rake "bump[version]"}
+    next
+  end
+
+  Dir.chdir("example") { sh "xcrun agvtool new-marketing-version #{version}" }
+
+  spec = "lib/version.rb"
+  text = File.read spec
+  File.write spec, text.gsub(%r(\"\d+\.\d+\.\d+\"), "\"#{version}\"")
+  puts "Updated #{spec} to #{version}"
+
+  changelog = "CHANGELOG.md"
+  text = File.read changelog
+  File.write changelog, text.gsub(%r(Next release), "#{version}")
+  puts "Updated #{changelog} to #{version}"
+
+  Rake::Task["install"].execute
+end
+
 desc "Launch the example app"
 task :example do
   Rake::Task["install"].execute

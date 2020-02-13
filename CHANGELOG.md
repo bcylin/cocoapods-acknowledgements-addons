@@ -1,6 +1,6 @@
 # Change Log
 
-## Next release
+## 0.3.0
 
 * Update the markdown and plist files in `Pods/Target Support Files`.
 * Support wildcard characters in the excluded filenames.
