@@ -1,7 +1,8 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
-require "cocoapods_acknowledgements/addons/podspec_accumulator"
-require "cocoapods_acknowledgements/addons/swift_package_accumulator"
+require "cocoapods_acknowledgements/addons/files/file_finder"
+require "cocoapods_acknowledgements/addons/files/podspec_accumulator"
+require "cocoapods_acknowledgements/addons/files/swift_package_accumulator"
 require "cocoapods_acknowledgements/addons/modifiers/pods_plist_modifier"
 require "cocoapods_acknowledgements/addons/modifiers/metadata_plist_modifier"
 
