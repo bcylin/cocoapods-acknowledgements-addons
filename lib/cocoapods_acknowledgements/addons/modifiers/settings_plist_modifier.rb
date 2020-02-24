@@ -4,7 +4,7 @@ require "cocoapods_acknowledgements/addons/acknowledgement"
 
 module CocoaPodsAcknowledgements
   module AddOns
-    class PodsPlistModifier
+    class SettingsPlistModifier
 
       # A modifier to update CocoaPods generated markdown and plist (settings.bundle format), such as:
       #
@@ -20,7 +20,7 @@ module CocoaPodsAcknowledgements
         @plist_paths = plist_paths
       end
 
-      # @return [String] the acknowledgement texts at Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.markdown.
+      # @return [String] the acknowledgement texts
       #
       def markdown
         return nil unless @markdown_path&.readable?
