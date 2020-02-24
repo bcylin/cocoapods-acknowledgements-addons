@@ -20,6 +20,7 @@ module CocoaPodsAcknowledgements
       end
 
       if includes_spm
+        Pod::UI.info %(Looking for Swift Package(s))
         spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
           accumulator = SwiftPackageAccumulator.new(target.user_project.path)
           (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
@@ -32,10 +33,12 @@ module CocoaPodsAcknowledgements
       sandbox ||= Pod::Sandbox.new(context.sandbox_root)
 
       context.umbrella_targets.each do |target|
-        metadata_plist_modifier = MetadataPlistModifier.new(target, sandbox)
+        files = FileFinder.new(target, sandbox)
+
+        metadata_plist_modifier = MetadataPlistModifier.new(files.metadata_format_plist)
         metadata_plist_modifier.add(acknowledgements.map(&:metadata_plist_item), excluded_names)
 
-        pods_plist_modifier = PodsPlistModifier.new(target, sandbox)
+        pods_plist_modifier = PodsPlistModifier.new(files.markdown, files.pods_format_plists)
         pods_plist_modifier.add(acknowledgements.map(&:settings_plist_item), excluded_names)
       end
     end

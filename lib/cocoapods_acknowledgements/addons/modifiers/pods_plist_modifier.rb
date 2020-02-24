@@ -6,22 +6,18 @@ module CocoaPodsAcknowledgements
   module AddOns
     class PodsPlistModifier
 
-      # A modifier to update:
+      # A modifier to update CocoaPods generated markdown and plist (settings.bundle format), such as:
       #
-      # - Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.{plist|markdown}
-      # - settings_bundle/#{app_name}-settings-metadata.plist"
+      # - Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.markdown
+      # - Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.plist
+      # - settings_bundle/#{app_name}-settings-metadata.plist
       #
-      # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
-      # @param sandbox [Pod::Sandbox] the CocoaPods sandbox
+      # @param markdown_path [Pathname] the path to the markdown file
+      # @param plist_paths [Array<Pathname>] the path to the plist files
       #
-      def initialize(target, sandbox)
-        @markdown_path = sandbox.target_support_files_root + target.cocoapods_target_label + "#{target.cocoapods_target_label}-acknowledgements.markdown"
-        @plist_path = sandbox.target_support_files_root + target.cocoapods_target_label + "#{target.cocoapods_target_label}-acknowledgements.plist"
-
-        project = Xcodeproj::Project.open(target.user_project_path)
-        file = project.files.find { |f| f.path =~ /Settings\.bundle$/ }
-        settings_bundle = file&.real_path
-        @settings_plist = settings_bundle + "#{target.cocoapods_target_label}-settings-metadata.plist" if settings_bundle&.exist?
+      def initialize(markdown_path, plist_paths)
+        @markdown_path = markdown_path
+        @plist_paths = plist_paths
       end
 
       # @return [String] the acknowledgement texts at Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.markdown.
@@ -29,20 +25,6 @@ module CocoaPodsAcknowledgements
       def markdown
         return nil unless @markdown_path&.readable?
         File.read @markdown_path
-      end
-
-      # @return [CFPropertyList::List] the acknowledgement plist at Pods/Target Support Files/Pods-#{app_name}/Pods-#{app_name}-acknowledgements.plist.
-      #
-      def plist
-        return nil unless @plist_path&.readable?
-        CFPropertyList::List.new(file: @plist_path)
-      end
-
-      # @return [CFPropertyList::List] the acknowledgement plist in the app Settings.bundle.
-      #
-      def settings_plist
-        return nil unless @settings_plist&.readable?
-        CFPropertyList::List.new(file: @settings_plist)
       end
 
       # Adds acknowledgements to the CocoaPods generated plist and markdown files except the excluded ones.
@@ -55,9 +37,10 @@ module CocoaPodsAcknowledgements
         excluded_names = [*excluded_names]
 
         return if plist_metadata.empty?
-        plist = plist_with_additional_metadata(plist_metadata, excluded_names)
+        reference = @plist_paths.first
+        plist = plist_with_additional_metadata(reference, plist_metadata, excluded_names)
 
-        [@plist_path, @settings_plist].each do |path|
+        @plist_paths.each do |path|
           next unless path&.writable?
           Pod::UI.puts "Saving #{path}".green
           plist.save(path, CFPropertyList::List::FORMAT_XML)
@@ -68,10 +51,10 @@ module CocoaPodsAcknowledgements
 
       private
 
-      def plist_with_additional_metadata(plist_metadata, excluded_names)
-        return nil unless @plist_path&.readable?
+      def plist_with_additional_metadata(reference, plist_metadata, excluded_names)
+        return nil unless reference&.readable?
 
-        plist = CFPropertyList::List.new(file: @plist_path)
+        plist = CFPropertyList::List.new(file: reference)
         entries = plist.value.value["PreferenceSpecifiers"].value
 
         header = entries.first
@@ -85,7 +68,7 @@ module CocoaPodsAcknowledgements
 
         additions = plist_metadata.map do |metadata|
           next if metadata.nil? or existing_titles.include? metadata[:Title]
-          Pod::UI.info "Adding #{metadata[:Title]} to #{@plist_path.basename}"
+          Pod::UI.info "Adding #{metadata[:Title]}"
           CFPropertyList.guess(metadata)
         end.reject(&:nil?)
 
@@ -97,7 +80,7 @@ module CocoaPodsAcknowledgements
               pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
               entry.value["Title"].value =~ pattern
             end
-            Pod::UI.info %(Removing #{entry.value["Title"].value} from #{@plist_path.basename}) if matches
+            Pod::UI.info %(Removing #{entry.value["Title"].value}) if matches
             matches
           end
 
