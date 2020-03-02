@@ -6,16 +6,17 @@ module CocoaPodsAcknowledgements
   module AddOns
     class MetadataPlistModifier
 
-      # A modifier to update Pods/Pods-#{app_name}-metadata.plist.
+      # A modifier to update cocoapods_acknowledgements generated plist (metadata format), such as:
       #
-      # @param target [Pod::Installer::PostInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target.
-      # @param sandbox [Pod::Sandbox] the CocoaPods sandbox
+      # - Pods/Pods-#{app_name}-metadata.plist
       #
-      def initialize(target, sandbox)
-        @plist_path = sandbox.root + "#{target.cocoapods_target_label}-metadata.plist"
+      # @param plist_path [Pathname] the path to the plist file
+      #
+      def initialize(plist_path)
+        @plist_path = plist_path
       end
 
-      # @return [CFPropertyList::List] the acknowledgement plist at Pods/Pods-#{app_name}-metadata.plist.
+      # @return [CFPropertyList::List] the acknowledgement plist.
       #
       def plist
         return nil unless @plist_path&.readable?
@@ -40,7 +41,7 @@ module CocoaPodsAcknowledgements
 
         additions = plist_metadata.map do |metadata|
           next if metadata.nil? or existing_titles.include? metadata[:name]
-          Pod::UI.info "Adding #{metadata[:name]} to #{@plist_path.basename}"
+          Pod::UI.info "Adding #{metadata[:name]}"
           CFPropertyList.guess(metadata)
         end.reject(&:nil?)
 
@@ -52,7 +53,7 @@ module CocoaPodsAcknowledgements
               pattern = %r(^#{Regexp.escape(excluded_name).gsub("\*", ".*?")})
               entry.value["name"].value =~ pattern
             end
-            Pod::UI.info %(Removing #{entry.value["name"].value} from #{@plist_path.basename}) if matches
+            Pod::UI.info %(Removing #{entry.value["name"].value}) if matches
             matches
           end
 
