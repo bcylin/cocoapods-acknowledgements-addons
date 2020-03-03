@@ -7,7 +7,7 @@ DEPENDENCIES:
   - CPDAcknowledgements
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - CPDAcknowledgements
 
 EXTERNAL SOURCES:
