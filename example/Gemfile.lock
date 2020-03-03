@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    cocoapods-acknowledgements-addons (0.2.0)
+    cocoapods-acknowledgements-addons (0.3.0)
       cocoapods (>= 0.36)
       cocoapods-acknowledgements
 
@@ -92,4 +92,4 @@ DEPENDENCIES
   cocoapods-acknowledgements-addons!
 
 BUNDLED WITH
-   2.0.2
+   2.1.4
