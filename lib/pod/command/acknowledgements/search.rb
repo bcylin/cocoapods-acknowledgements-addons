@@ -26,7 +26,11 @@ module Pod
         end
 
         def run
-          @paths.each { |path| puts CocoaPodsAcknowledgements::AddOns::PodspecFinder.new(path, @spm).files }
+          if @is_spm
+            @paths.each { |path| puts CocoaPodsAcknowledgements::AddOns::PodspecFinder.new(xcodeproj_path: path).files }
+          else
+            @paths.each { |path| puts CocoaPodsAcknowledgements::AddOns::PodspecFinder.new(search_path: path).files }
+          end
         end
       end
     end

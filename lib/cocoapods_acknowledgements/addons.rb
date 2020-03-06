@@ -14,14 +14,14 @@ module CocoaPodsAcknowledgements
       includes_spm = user_options[:with_spm] || false
 
       acknowledgements = paths.reduce([]) do |results, path|
-        specs = PodspecFinder.new(Pathname(path).expand_path)
+        specs = PodspecFinder.new(search_path: Pathname(path).expand_path)
         (results + specs.acknowledgements).uniq { |a| a.spec.name }
       end
 
       if includes_spm
         Pod::UI.info %(Looking for Swift Package(s))
         spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
-          specs = PodspecFinder.new(target.user_project.path, spm = true)
+          specs = PodspecFinder.new(xcodeproj_path: target.user_project.path)
           (results + specs.acknowledgements).uniq { |a| a.spec.name }
         end
         acknowledgements += spm_acknowledgements

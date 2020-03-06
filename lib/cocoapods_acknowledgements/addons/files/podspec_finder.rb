@@ -8,14 +8,14 @@ module CocoaPodsAcknowledgements
 
       # @param search_path [Pathname] the directory to look for podspecs.
       #
-      def initialize(search_path = Pathname("").expand_path, spm = false)
+      def initialize(params = { search_path: nil, xcodeproj_path: nil })
         @files =
-          if spm
-            build_dir = %x{xcodebuild -project "#{search_path}" -showBuildSettings | grep -m 1 BUILD_DIR | grep -oEi "\/.*"}.strip
+          if params[:xcodeproj_path]
+            build_dir = %x{xcodebuild -project "#{params[:xcodeproj_path]}" -showBuildSettings | grep -m 1 BUILD_DIR | grep -oEi "\/.*"}.strip
             source_packages_dir = Pathname(build_dir) + "../../SourcePackages/checkouts"
             Dir[source_packages_dir + "*/*.podspec"] # skip nested git submodules
           else
-            Dir[search_path + "**/*.podspec"]
+            Dir[Pathname(params[:search_path]).expand_path + "**/*.podspec"]
           end
       end
 
