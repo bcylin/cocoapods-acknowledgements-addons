@@ -9,12 +9,12 @@ module Pod
 
         def self.options
           [
-            ['--spm', 'Is Swift Package Manager Path']
+            ['--swift-package', 'Search for installed Swift Packages']
           ].concat(super)
         end
 
         def initialize(argv)
-          @spm = argv.flag?('spm')
+          @is_swift_package = argv.flag?("swift\-package")
           @arguments = argv.arguments!
           @paths = @arguments.map(&Pathname::method(:new)).map(&:expand_path)
           super
@@ -26,7 +26,7 @@ module Pod
         end
 
         def run
-          if @is_spm
+          if @is_swift_package
             @paths.each { |path| puts CocoaPodsAcknowledgements::AddOns::PodspecFinder.new(xcodeproj_path: path).files }
           else
             @paths.each { |path| puts CocoaPodsAcknowledgements::AddOns::PodspecFinder.new(search_path: path).files }
