@@ -9,7 +9,7 @@ module Pod
 
         def self.options
           [
-            ['--swift-package', 'Search for installed Swift Packages']
+            ['--swift-packages', 'Search for installed Swift Packages']
           ].concat(super)
         end
 

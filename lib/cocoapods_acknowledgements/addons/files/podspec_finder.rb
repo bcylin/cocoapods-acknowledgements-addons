@@ -14,8 +14,10 @@ module CocoaPodsAcknowledgements
             build_dir = %x{xcodebuild -project "#{params[:xcodeproj_path]}" -showBuildSettings | grep -m 1 BUILD_DIR | grep -oEi "\/.*"}.strip
             source_packages_dir = Pathname(build_dir) + "../../SourcePackages/checkouts"
             Dir[source_packages_dir + "*/*.podspec"] # skip nested git submodules
-          else
+          elsif params[:search_path]
             Dir[Pathname(params[:search_path]).expand_path + "**/*.podspec"]
+          else
+            []
           end
       end
 
