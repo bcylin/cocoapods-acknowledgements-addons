@@ -78,7 +78,7 @@ Usage:
 1. without options
 
 ```sh
-$ bundle exec pod acknowledgements search .
+$ bundle exec pod acknowledgements search example
 
 ./Dependencies/Strongify/Strongify.podspec
 ./Carthage/Checkouts/QuickTableViewController/QuickTableViewController.podspec
@@ -86,10 +86,10 @@ $ bundle exec pod acknowledgements search .
 ./Acknowledgements/Crypto/Crypto.podspec
 ```
 
-2. with `--swift-package`
+2. with `--swift-packages`
 
 ```sh
-$ bundle exec pod acknowledgements search --swift-package ./App.xcodeproj
+$ bundle exec pod acknowledgements search --swift-packages example/App.xcodeproj
 
 ~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/CwlCatchException/CwlCatchException.podspec
 ~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/Quick/Quick.podspec

@@ -14,7 +14,7 @@ module Pod
         end
 
         def initialize(argv)
-          @is_swift_package = argv.flag?("swift\-package")
+          @is_swift_package = argv.flag?("swift\-packages")
           @arguments = argv.arguments!
           @paths = @arguments.map(&Pathname::method(:new)).map(&:expand_path)
           super
