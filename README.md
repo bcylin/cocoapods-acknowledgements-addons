@@ -65,6 +65,38 @@ This plugin also updates the app's `Settings.bundle/Pods-{target_name}-settings-
 
 Check out the [example app](https://github.com/bcylin/cocoapods-acknowledgements-addons/tree/master/example) for the configuration to use with [CPDAcknowledgements](https://github.com/CocoaPods/CPDAcknowledgements).
 
+## Pod Commands
+
+### Search: List all podspecs found in $PATHS
+
+```sh
+pod acknowledgements search $PATHS
+```
+
+Usage:
+
+1. without options
+
+```sh
+$ bundle exec pod acknowledgements search .
+
+./Dependencies/Strongify/Strongify.podspec
+./Carthage/Checkouts/QuickTableViewController/QuickTableViewController.podspec
+./Carthage/Checkouts/Alamofire/Alamofire.podspec
+./Acknowledgements/Crypto/Crypto.podspec
+```
+
+2. with `--swift-package`
+
+```sh
+$ bundle exec pod acknowledgements search --swift-package ./App.xcodeproj
+
+~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/CwlCatchException/CwlCatchException.podspec
+~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/Quick/Quick.podspec
+~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/CwlPreconditionTesting/CwlPreconditionTesting.podspec
+~/Library/Developer/Xcode/DerivedData/App-djdfchmfsxwuuqbfczwmhygyunnk/SourcePackages/checkouts/Nimble/Nimble.podspec
+```
+
 ## License
 
 Released under the [MIT License](https://github.com/bcylin/cocoapods-acknowledgements-addons/blob/master/LICENSE).
