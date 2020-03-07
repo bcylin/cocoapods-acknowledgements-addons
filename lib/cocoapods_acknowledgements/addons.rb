@@ -1,8 +1,7 @@
 require "cocoapods"
 require "cocoapods_acknowledgements"
 require "cocoapods_acknowledgements/addons/files/file_finder"
-require "cocoapods_acknowledgements/addons/files/podspec_accumulator"
-require "cocoapods_acknowledgements/addons/files/swift_package_accumulator"
+require "cocoapods_acknowledgements/addons/files/podspec_finder"
 require "cocoapods_acknowledgements/addons/modifiers/metadata_plist_modifier"
 require "cocoapods_acknowledgements/addons/modifiers/settings_plist_modifier"
 
@@ -15,15 +14,15 @@ module CocoaPodsAcknowledgements
       includes_spm = user_options[:with_spm] || false
 
       acknowledgements = paths.reduce([]) do |results, path|
-        accumulator = PodspecAccumulator.new(Pathname(path).expand_path)
-        (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
+        specs = PodspecFinder.new(search_path: Pathname(path).expand_path)
+        (results + specs.acknowledgements).uniq { |a| a.spec.name }
       end
 
       if includes_spm
         Pod::UI.info %(Looking for Swift Package(s))
         spm_acknowledgements = context.umbrella_targets.reduce([]) do |results, target|
-          accumulator = SwiftPackageAccumulator.new(target.user_project.path)
-          (results + accumulator.acknowledgements).uniq { |a| a.spec.name }
+          specs = PodspecFinder.new(xcodeproj_path: target.user_project.path)
+          (results + specs.acknowledgements).uniq { |a| a.spec.name }
         end
         acknowledgements += spm_acknowledgements
         Pod::UI.info %(Found #{spm_acknowledgements.count} Swift Package(s)).green
