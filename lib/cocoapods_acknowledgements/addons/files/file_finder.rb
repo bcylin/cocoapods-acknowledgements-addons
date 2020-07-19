@@ -25,7 +25,7 @@ module CocoaPodsAcknowledgements
           project = Xcodeproj::Project.open(target.user_project_path)
           file = project.files.find { |f| f.path =~ /Settings\.bundle$/ }
           settings_bundle = file&.real_path
-          return nil unless settings_bundle&.exist?
+          next unless settings_bundle&.exist?
           settings_bundle + "#{target.cocoapods_target_label}-settings-metadata.plist"
         end
 
