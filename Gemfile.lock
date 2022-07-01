@@ -106,7 +106,7 @@ GEM
       rexml (~> 3.2.4)
     xcpretty (0.3.0)
       rouge (~> 2.0.7)
-    yard (0.9.27)
+    yard (0.9.28)
       webrick (~> 1.7.0)
 
 PLATFORMS
