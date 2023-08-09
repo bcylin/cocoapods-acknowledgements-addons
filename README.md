@@ -79,7 +79,6 @@ Usage:
 ```sh
 $ bundle exec pod acknowledgements search example
 
-./Dependencies/Strongify/Strongify.podspec
 ./Carthage/Checkouts/QuickTableViewController/QuickTableViewController.podspec
 ./Carthage/Checkouts/Alamofire/Alamofire.podspec
 ./Acknowledgements/Crypto/Crypto.podspec

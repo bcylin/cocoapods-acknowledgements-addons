@@ -4,7 +4,7 @@
 
 ```rb
 plugin "cocoapods-acknowledgements-addons",
-  add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
+  add: ["Acknowledgements", "Carthage/Checkouts"],
   exclude: ["Quick*"]
 ```
 
@@ -19,8 +19,6 @@ The plugin finds additional acknowledgements from the following directories:
 │       ├── Alamofire
 │       ├── Crypto
 │       └── QuickTableViewController
-├── Dependencies
-│   └── Strongify
 ├── Podfile
 └── Podfile.lock
 ```
@@ -28,7 +26,6 @@ The plugin finds additional acknowledgements from the following directories:
 * [`Crypto`](https://github.com/soffes/Crypto) is not available via CocoaPods. `Acknowledgements/Crypto/Crypto.podspec` provides the acknowledgement info.
 * `Alamofire` is ignored since it's already in Podfile.
 * `QuickTableViewController` is excluded from the list.
-* `Strongify` installed via git-submodule will be added to the acknowledgements.
 
 ### Launch the project
 

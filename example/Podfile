@@ -15,6 +15,15 @@ plugin "cocoapods-acknowledgements", settings_bundle: true
 
 # Adds additional acknowledgements to the generated plist
 plugin "cocoapods-acknowledgements-addons",
-  add: ["Acknowledgements", "Carthage/Checkouts", "Dependencies"],
+  add: ["Acknowledgements", "Carthage/Checkouts"],
   with_spm: true,
   exclude: ["Quick*"]
+
+# Remove the deployment target due to the outdated CPDAcknowledgements.podspec
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings.delete 'IPHONEOS_DEPLOYMENT_TARGET'
+    end
+  end
+end

@@ -16,8 +16,7 @@ final class AppTests: XCTestCase {
     "Crypto",
     "CwlCatchException",
     "CwlPreconditionTesting",
-    "Nimble",
-    "Strongify"
+    "Nimble"
   ]
 
   func testAcknowledgementsPlist() {
