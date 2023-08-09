@@ -4,5 +4,8 @@ default:
 
 install-dependencies:
 	git submodule update --init --recursive
-	carthage bootstrap --platform ios --no-build
+	brew list mint > /dev/null || brew install mint
+	mint bootstrap
+	mint run carthage bootstrap --platform ios --no-build
+	bundle install
 	bundle exec pod install

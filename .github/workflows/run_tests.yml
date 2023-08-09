@@ -1,25 +1,36 @@
-name: Run tests
+name: Tests
 
 on: [push, pull_request]
 
 jobs:
   test:
-    name: rake install and test
+    name: Run tests
     runs-on: macOS-latest
+    env:
+      POD_PATH: example/Pods
     steps:
-      - uses: actions/checkout@master
-      - uses: actions/setup-ruby@v1
+      - uses: actions/checkout@v3
         with:
-          ruby-version: '2.6.x'
-      - name: Run bundle install
-        run: |
-          gem list bundler
-          bundle install
+          submodules: true
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
 
-      - name: Build app
+      - name: Cache ${{ env.POD_PATH }}
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.POD_PATH }}
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: ${{ runner.os }}-pods-
+
+      - name: Environment
         run: |
-          bundle exec rake build
+          xcodebuild -version
+          swift -version
 
       - name: Run tests
         run: |
-          bundle exec rake test
+          cd example
+          bundle install
+          bundle exec fastlane test
