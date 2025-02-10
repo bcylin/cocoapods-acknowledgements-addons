@@ -29,11 +29,11 @@ describe FileFinder = CocoaPodsAcknowledgements::AddOns::FileFinder do
     it 'finds the the file paths' do
       expect(@file_finder.metadata_format_plist.to_s).to eq('./Pods/Pods-LoremIpsum-metadata.plist')
       expect(@file_finder.markdown.to_s).to eq('./Pods/Target Support Files/Pods-LoremIpsum/Pods-LoremIpsum-acknowledgements.markdown')
-      expect(@file_finder.settings_format_plists).to eq(
-        [
-          Pathname.new('./Pods/Target Support Files/Pods-LoremIpsum/Pods-LoremIpsum-acknowledgements.plist'),
-          nil
-        ]
+      expect(@file_finder.settings_format).to eq(
+        {
+          pods_plist: Pathname.new('./Pods/Target Support Files/Pods-LoremIpsum/Pods-LoremIpsum-acknowledgements.plist'),
+          bundle_plist: nil
+        }
       )
     end
   end

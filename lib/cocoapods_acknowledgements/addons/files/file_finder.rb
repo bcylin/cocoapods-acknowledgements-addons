@@ -13,7 +13,7 @@ module CocoaPodsAcknowledgements
     #   }
     #
     class FileFinder
-      attr_reader :metadata_format_plist, :markdown
+      attr_reader :metadata_format_plist, :markdown, :settings_format
 
       #
       # @param target [Pod::Installer::BaseInstallHooksContext::UmbrellaTargetDescription] the xcodeproj target
@@ -26,13 +26,6 @@ module CocoaPodsAcknowledgements
           pods_plist: sandbox.target_support_files_root + target.cocoapods_target_label + "#{target.cocoapods_target_label}-acknowledgements.plist",
           bundle_plist: self.class.find_settings_plist(target)
         }
-      end
-
-      #
-      # @return [Array<Pathname>] the path to the Settings.bundle format plist files
-      #
-      def settings_format_plists
-        @settings_format.values
       end
 
       #
