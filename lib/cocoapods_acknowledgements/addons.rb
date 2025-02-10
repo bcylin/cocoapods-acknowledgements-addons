@@ -35,7 +35,7 @@ module CocoaPodsAcknowledgements
         files = FileFinder.new(target, sandbox)
 
         metadata_plist_modifier = MetadataPlistModifier.new(files.metadata_format_plist)
-        metadata_plist_modifier.add(acknowledgements.map(&:metadata_plist_item), excluded_names)
+        metadata_plist_modifier.add(acknowledgements.map(&:metadata_plist_item), excluded_names: excluded_names)
 
         settings_plist_modifier = SettingsPlistModifier.new(files.markdown, files.settings_format_plists)
         settings_plist_modifier.add(acknowledgements.map(&:settings_plist_item), excluded_names)
