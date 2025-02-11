@@ -2,27 +2,26 @@ module Pod
   class Command
     class Acknowledgements < Command
       class Search < Acknowledgements
-
         self.arguments = [
-          CLAide::Argument.new("PATHS", true)
+          CLAide::Argument.new('PATHS', true)
         ]
 
         def self.options
           [
-            ['--swift-packages', 'Search for installed Swift Packages']
+            ['--swift-packages', 'Search for the Swift package dependencies of an Xcode project']
           ].concat(super)
         end
 
         def initialize(argv)
           @is_swift_package = argv.flag?("swift\-packages")
           @arguments = argv.arguments!
-          @paths = @arguments.map(&Pathname::method(:new)).map(&:expand_path)
+          @paths = @arguments.map(&Pathname.method(:new)).map(&:expand_path)
           super
         end
 
         def validate!
           super
-          help! "Path(s) to look for acknowledgements are required" if @paths.empty?
+          help! 'It requires the PATHS to look for acknowledgements' if @paths.empty?
         end
 
         def run

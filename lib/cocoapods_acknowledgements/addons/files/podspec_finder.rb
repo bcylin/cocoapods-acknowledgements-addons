@@ -28,8 +28,14 @@ module CocoaPodsAcknowledgements
         @files.map { |file| Acknowledgement.new(file) }
       end
 
+      #
+      # @param search_path [String] the path to the Xcode project to look for Swift Packages.
+      #
+      # @return [Pathname] the directory that contains the Swift Package dependencies.
+      #
       def self.swift_packages_dir(xcodeproj_path)
-        build_dir = `xcodebuild -project "#{xcodeproj_path}" -showBuildSettings | grep -m 1 BUILD_DIR | grep -oEi "\/.*"`.strip
+        scheme = Xcodeproj::Project.schemes(xcodeproj_path)&.first
+        build_dir = `xcodebuild -project "#{xcodeproj_path}" -showBuildSettings -scheme #{scheme} 2>/dev/null | grep -m 1 BUILD_DIR | grep -oEi "\/.*"`.strip
         Pathname(build_dir) + '../../SourcePackages/checkouts'
       end
     end

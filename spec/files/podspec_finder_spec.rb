@@ -50,6 +50,7 @@ describe PodspecFinder = CocoaPodsAcknowledgements::AddOns::PodspecFinder do
     end
 
     it 'returns the path to source package checkouts' do
+      expect(Xcodeproj::Project).to receive(:schemes).with('LoremIpsum.xcodeproj')
       expect(PodspecFinder.swift_packages_dir('LoremIpsum.xcodeproj').to_s)
         .to eq('~/Library/Developer/Xcode/DerivedData/LoremIpsum-dolorsitamet/SourcePackages/checkouts')
     end
