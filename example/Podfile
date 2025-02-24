@@ -1,17 +1,17 @@
-platform :ios, "12.0"
+platform :ios, '12.0'
 use_frameworks!
 inhibit_all_warnings!
 
 target :App do
-  pod "Alamofire", git: "https://github.com/Alamofire/Alamofire.git", tag: "4.8.2"
-  pod "CPDAcknowledgements"
+  pod 'Alamofire', git: 'https://github.com/Alamofire/Alamofire.git', tag: '4.8.2'
+  pod 'CPDAcknowledgements'
 end
 
 target :AppTests do
 end
 
 # Generates a plist of dependencies installed via CocoaPods
-plugin "cocoapods-acknowledgements", settings_bundle: true
+plugin 'cocoapods-acknowledgements', settings_bundle: true
 
 # Adds additional acknowledgements to the generated plist
 plugin 'cocoapods-acknowledgements-addons',

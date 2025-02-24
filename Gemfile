@@ -1,9 +1,14 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gemspec
 
 group :development do
-  gem "pry"
-  gem "xcpretty"
-  gem "yard"
+  gem 'pry'
+  gem 'rubocop'
+  gem 'xcpretty'
+  gem 'yard'
+end
+
+group :test do
+  gem 'rspec'
 end
