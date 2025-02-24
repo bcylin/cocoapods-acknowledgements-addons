@@ -9,7 +9,7 @@ jobs:
     env:
       POD_PATH: example/Pods
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: ruby/setup-ruby@v1
@@ -18,7 +18,7 @@ jobs:
           bundler-cache: true
 
       - name: Cache ${{ env.POD_PATH }}
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: ${{ env.POD_PATH }}
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
@@ -34,3 +34,8 @@ jobs:
           cd example
           bundle install
           bundle exec fastlane test
+
+      - name: Rspec
+        run: |
+          bundle install
+          bundle exec rspec spec
