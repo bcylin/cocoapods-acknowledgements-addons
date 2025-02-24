@@ -1,10 +1,10 @@
 default_platform(:ios)
 
 platform :ios do
-  desc "Run tests in the example app"
+  desc 'Run tests in the example app'
   lane :test do
-    carthage(platform: "ios", no_build: true)
+    carthage(platform: 'ios', no_build: true)
     cocoapods
-    run_tests(clean: true, skip_build: true, workspace: "App.xcworkspace", scheme: "App")
+    run_tests(clean: true, skip_build: true, workspace: 'App.xcworkspace', scheme: 'App')
   end
 end

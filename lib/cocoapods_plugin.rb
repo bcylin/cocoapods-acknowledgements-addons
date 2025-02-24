@@ -1,2 +1,2 @@
-require "cocoapods_acknowledgements/addons"
-require "pod/command/acknowledgements"
+require 'cocoapods_acknowledgements/addons'
+require 'pod/command/acknowledgements'
