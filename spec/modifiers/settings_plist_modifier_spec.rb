@@ -1,0 +1,127 @@
+require 'cocoapods'
+require 'cfpropertylist'
+require_relative '../helpers/mapping'
+require_relative '../../lib/cocoapods_acknowledgements/addons/acknowledgement'
+require_relative '../../lib/cocoapods_acknowledgements/addons/modifiers/settings_plist_modifier'
+
+describe SettingsPlistModifier = CocoaPodsAcknowledgements::AddOns::SettingsPlistModifier do
+  let(:markdown_path) { Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/settings_format.markdown')) }
+  let(:pods_plist_path) { Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/settings_format.plist')) }
+  let(:bundle_plist_path) { Pathname.new(File.join(File.dirname(__FILE__), '../fixtures/settings_format.plist')) }
+  let(:plist_paths) { { pods_plist: pods_plist_path, bundle_plist: bundle_plist_path } }
+
+  let(:plist) { CFPropertyList::List.new(file: pods_plist_path) }
+  let(:modifier) { SettingsPlistModifier.new(markdown_path, plist_paths) }
+
+  before(:all) do
+    CFPropertyList::CFDictionary.include(Mapping)
+  end
+
+  context 'when initialized' do
+    it 'loads the acknowledgements' do
+      expect(modifier.markdown).to be_a(String)
+      expect(modifier.pods_plist).to be_a(CFPropertyList::List)
+      expect(modifier.bundle_plist).to be_a(CFPropertyList::List)
+    end
+
+    it 'has no acknowledgements when the paths are not readable' do
+      allow(markdown_path).to receive(:readable?).and_return(false)
+      allow(pods_plist_path).to receive(:readable?).and_return(false)
+      allow(bundle_plist_path).to receive(:readable?).and_return(false)
+
+      expect(modifier.markdown).to be_nil
+      expect(modifier.pods_plist).to be_nil
+      expect(modifier.bundle_plist).to be_nil
+    end
+  end
+
+  context 'when modifying' do
+    before do
+      allow(modifier).to receive(:pods_plist).and_return(plist)
+      allow(plist).to receive(:save)
+      allow(File).to receive(:write)
+    end
+
+    it 'does nothing when the data is empty' do
+      expect(Pod::UI).not_to receive(:puts)
+      expect(plist).not_to receive(:value)
+      expect(plist).not_to receive(:save)
+      expect(File).not_to receive(:write)
+
+      modifier.add([])
+    end
+
+    it 'adds acknowledgements to the plist' do
+      plist_metadata = %w[LibraryC LibraryD].map { |title| { Title: title } }
+
+      expect(SettingsPlistModifier).to receive(:modify_plist).with(plist, plist_metadata, []).and_return(plist)
+      plist_paths.each_value do |path|
+        expect(plist).to receive(:save).with(path, CFPropertyList::List::FORMAT_XML)
+        expect(Pod::UI).to receive(:puts).with("Saving #{path}".green)
+      end
+
+      expect(SettingsPlistModifier).to receive(:markdown_text_with).with(plist).and_return('...')
+      expect(File).to receive(:write).with(markdown_path, '...')
+
+      modifier.add(plist_metadata, excluded_names: nil)
+    end
+
+    it 'removes the excluded names' do
+      plist_metadata = %w[LibraryC LibraryD].map { |title| { Title: title } }
+
+      expect(SettingsPlistModifier).to receive(:combine_acknowledgements).and_return(plist_metadata)
+      expect(SettingsPlistModifier).to receive(:filter_acknowledgements).with(plist_metadata, ['LibraryA']).and_return(plist_metadata)
+
+      plist_paths.each_value do |path|
+        expect(plist).to receive(:save).with(path, CFPropertyList::List::FORMAT_XML)
+        expect(Pod::UI).to receive(:puts).with("Saving #{path}".green)
+      end
+
+      expect(SettingsPlistModifier).to receive(:markdown_text_with).with(plist).and_return('...')
+      expect(File).to receive(:write).with(markdown_path, '...')
+
+      modifier.add(plist_metadata, excluded_names: ['LibraryA'])
+    end
+
+    it 'adds additional entries and removes duplicates' do
+      acknowledgements = %w[LibraryA LibraryB].map { |title| CFPropertyList.guess(Title: title) }
+      plist_metadata = %w[LibraryB LibraryC].map { |title| { Title: title } }
+
+      expect(Pod::UI).to receive(:info).with('Adding LibraryC')
+      results = SettingsPlistModifier.combine_acknowledgements(acknowledgements, plist_metadata)
+
+      expect(results.map(&:to_titles)).to eq(%w[LibraryA LibraryB LibraryC])
+    end
+
+    it 'filters out excluded names and reorders the list' do
+      acknowledgements = %w[LibraryC LibraryA LibraryB].map { |title| CFPropertyList.guess(Title: title) }
+      excluded_names = ['LibraryB']
+
+      expect(Pod::UI).to receive(:info).with('Removing LibraryB')
+      results = SettingsPlistModifier.filter_acknowledgements(acknowledgements, excluded_names)
+
+      expect(results.map(&:to_titles)).to eq(%w[LibraryA LibraryC])
+    end
+
+    it 'formats markdown text with plist' do
+      markdown = SettingsPlistModifier.markdown_text_with(plist)
+      expect(markdown).to eq(
+        <<~MARKDOWN
+          # Acknowledgements
+          This application makes use of the following third party libraries:
+
+          ## LibraryA
+
+          LicenseA
+
+
+          ## LibraryB
+
+          LicenseB
+
+          Generated by CocoaPods - https://cocoapods.org
+        MARKDOWN
+      )
+    end
+  end
+end
