@@ -21,7 +21,7 @@ module CocoaPodsAcknowledgements
         @markdown_path = markdown_path
         @pods_plist_path = plist_paths[:pods_plist]
         @bundle_plist_path = plist_paths[:bundle_plist]
-        @plist_paths = plist_paths.values.filter(&:writable?)
+        @plist_paths = plist_paths.values.compact.filter(&:writable?)
       end
 
       #
