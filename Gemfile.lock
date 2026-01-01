@@ -165,7 +165,7 @@ GEM
       rexml (>= 3.3.6, < 4.0)
     xcpretty (0.4.0)
       rouge (~> 3.28.0)
-    yard (0.9.37)
+    yard (0.9.38)
 
 PLATFORMS
   ruby
